@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>iPAS 淨零碳規劃管理師｜COP & 上市櫃盤查時程 30 題測驗</title>
+<style>
+  :root{--bg:#fafafa;--card:#ffffff;--text:#111;--muted:#666;--accent:#0a7;--danger:#c33;}
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,'Noto Sans TC',sans-serif;background:var(--bg);color:var(--text);margin:0;line-height:1.6;}
+  header{padding:20px 16px;background:#fff;box-shadow:0 1px 6px rgba(0,0,0,.06);position:sticky;top:0;z-index:1}
+  h1{font-size:20px;margin:0 0 4px 0}
+  .container{max-width:900px;margin:18px auto;padding:0 16px;}
+  .card{background:var(--card);border-radius:12px;padding:16px 18px;margin:12px 0;border:1px solid #eee}
+  .qtitle{font-weight:600;margin-bottom:8px}
+  .choices{display:grid;grid-template-columns:1fr;gap:8px;margin:8px 0}
+  .choice{display:flex;align-items:flex-start;gap:10px;padding:10px 12px;border:1px solid #e6e6e6;border-radius:10px;background:#fff;cursor:pointer}
+  .choice input{margin-top:3px}
+  .muted{color:var(--muted);font-size:13px}
+  .btns{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+  button{border:0;border-radius:10px;padding:10px 14px;background:#111;color:#fff;cursor:pointer}
+  .outline{background:#fff;color:#111;border:1px solid #ddd}
+  .ans{display:none;border-top:1px dashed #e6e6e6;margin-top:10px;padding-top:10px}
+  .correct{background:#e9fbf2;border-color:#b6f1d6}
+  .wrong{background:#fff3f1;border-color:#ffd8d2}
+  .score{font-weight:700}
+  footer{padding:40px 16px;color:#777;text-align:center}
+</style>
+</head>
+<body>
+<header>
+  <h1>iPAS 淨零碳規劃管理師｜COP & 盤查時程 30 題測驗</h1>
+  <div class="muted">單選題｜做完按「批改」看分數；每題可展開詳解。</div>
+</header>
+<div class="container">
+<div id="root"></div>
+
+<div class="card">
+  <div><span class="score">得分：</span><span id="scoreText">尚未作答</span></div>
+  <div class="btns">
+    <button id="gradeBtn">批改</button>
+    <button class="outline" id="resetBtn">重置作答</button>
+    <button class="outline" id="toggleAll">展開/收合 所有詳解</button>
+  </div>
+</div>
+</div>
+<footer>© 練習用題庫 — 依最新 COP & 上市櫃盤查規劃整理</footer>
+
+<script>
+const data = [
+  {
+    id:1,
+    q:"COP21 的《巴黎協定》是公司設定減碳目標的重要依據。請問 COP21 是在哪一年舉行？",
+    choices:["2009 年","2015 年","2018 年","2021 年"],
+    answer:1,
+    explain:"COP21 於 2015 年在巴黎舉行，會議通過《巴黎協定》。"
+  },
+  {
+    id:2,
+    q:"一家公司內部簡報強調「COP26 提到逐步減少燃煤發電」。請問 COP26 舉行的地點為何？",
+    choices:["巴黎","格拉斯哥","波昂","杜拜"],
+    answer:1,
+    explain:"COP26 於 2021 年在英國格拉斯哥舉行。"
+  },
+  {
+    id:3,
+    q:"COP27 的重點是「損失與損害基金（Loss and Damage Fund）」。請問 COP27 舉辦的國家是？",
+    choices:["法國","英國","埃及","阿聯"],
+    answer:2,
+    explain:"COP27 於 2022 年在埃及沙姆沙伊赫舉辦。"
+  },
+  {
+    id:4,
+    q:"全球升溫控制在 1.5°C 的目標首次明確提出是在：",
+    choices:["COP15 哥本哈根","COP21 巴黎協定","COP24 卡托維茲","COP26 格拉斯哥"],
+    answer:1,
+    explain:"巴黎協定首次提出「2°C 內，並努力達 1.5°C」。"
+  },
+  {
+    id:5,
+    q:"《京都議定書》在哪一屆 COP 通過？",
+    choices:["COP1","COP3","COP11","COP15"],
+    answer:1,
+    explain:"《京都議定書》於 1997 年 COP3（日本京都）通過。"
+  },
+  {
+    id:6,
+    q:"COP28 首度明文寫入逐步淘汰化石燃料。請問 COP28 舉行於哪一年？",
+    choices:["2021 年","2022 年","2023 年","2024 年"],
+    answer:2,
+    explain:"COP28 於 2023 年在杜拜舉行。"
+  },
+  {
+    id:7,
+    q:"《巴黎協定》第 6 條市場機制的細則主要在哪一屆 COP 完成？",
+    choices:["COP21","COP24","COP26","COP27"],
+    answer:2,
+    explain:"第 6 條規則在 COP26 才完成。"
+  },
+  {
+    id:8,
+    q:"《巴黎協定》與《京都議定書》的最大差異是？",
+    choices:["巴黎協定採義務減量，京都議定書採自主承諾",
+             "巴黎協定採『各國自主承諾（NDC）』，京都議定書採義務減量",
+             "兩者皆為強制減量","兩者皆為自主承諾"],
+    answer:1,
+    explain:"京都強制已開發國家減量；巴黎協定改為各國自主提交 NDC。"
+  },
+  {
+    id:9,
+    q:"為何 COP26 對 RE100 推動影響大？",
+    choices:["COP26 強調氣候融資","COP26 推進逐步減少燃煤，促使企業加速用綠電",
+             "COP26 討論 CBAM","COP26 公布全球統一碳交易制度"],
+    answer:1,
+    explain:"逐步減少燃煤訊號促使大企業導入綠電。"
+  },
+  {
+    id:10,
+    q:"COP15 哥本哈根會議的挫敗，主要原因是？",
+    choices:["無法就碳市場機制定案","未能就 2°C 控溫達成具法律拘束力協議",
+             "富國拒絕損失補償","未通過全球統一碳稅"],
+    answer:1,
+    explain:"COP15（2009）未能達成具法律效力協議。"
+  },
+  {
+    id:11,
+    q:"資本額 120 億元公司（個體）需於何年完成盤查？",
+    choices:["2023 年","2024 年","2025 年","2026 年"],
+    answer:0,
+    explain:"≥100 億個體：2023 年盤查、2024 年查證。"
+  },
+  {
+    id:12,
+    q:"資本額 55 億元公司（個體）需於何年完成查證？",
+    choices:["2025 年","2026 年","2027 年","2028 年"],
+    answer:2,
+    explain:"50–100 億：2025 盤查、2027 查證。"
+  },
+  {
+    id:13,
+    q:"資本額 800 億元公司（個體）最早完成盤查的年度？",
+    choices:["2023 年","2024 年","2025 年","2026 年"],
+    answer:0,
+    explain:"≥100 億：2023 年盤查。"
+  },
+  {
+    id:14,
+    q:"資本額 80 億元公司（個體）完成盤查的年度是？",
+    choices:["2024 年","2025 年","2026 年","2027 年"],
+    answer:1,
+    explain:"50–100 億：2025 盤查、2027 查證。"
+  },
+  {
+    id:15,
+    q:"資本額 ≥100 億之公司最早完成盤查的年度？",
+    choices:["2023 年","2024 年","2025 年","2026 年"],
+    answer:0,
+    explain:"≥100 億個體：2023 年盤查。"
+  },
+  {
+    id:16,
+    q:"資本額 200 億公司在 2025 年是否需查證？",
+    choices:["需立即查證","僅需盤查，查證 2027 開始","盤查與查證可擇一","不需查證"],
+    answer:0,
+    explain:"≥100 億個體：2024 即進入查證。"
+  },
+  {
+    id:17,
+    q:"資本額 40 億元公司在 2024 年是否需盤查？",
+    choices:["需要，2024 年起","需要，2025 年起","不需要，未達 50 億門檻","不需要，僅限上市公司"],
+    answer:2,
+    explain:"門檻自 ≥50 億起算；40 億未達。"
+  },
+  {
+    id:18,
+    q:"資本額 90 億元公司（個體）應於何年完成查證？",
+    choices:["2025 年","2026 年","2027 年","2028 年"],
+    answer:2,
+    explain:"50–100 億：2025 盤查、2027 查證。"
+  },
+  {
+    id:19,
+    q:"資本額 30 億元上櫃公司是否需盤查？",
+    choices:["是，立即需要","否，未達 50 億","否，僅需自主揭露","是，所有上櫃皆需"],
+    answer:1,
+    explain:"50 億以下暫不強制。"
+  },
+  {
+    id:20,
+    q:"母公司 45 億、子公司 70 億，是否需盤查？",
+    choices:["不需要，母公司未達","需要，子公司達 50 億門檻","僅母公司自主盤查","僅國外子公司需"],
+    answer:1,
+    explain:"子公司 ≥50 億，合併公司需 2026 盤查、2028 查證。"
+  },
+  {
+    id:21,
+    q:"UNFCCC 於 1992 里約簽署，其正式生效年份為：",
+    choices:["1992 年","1994 年","1995 年","1997 年"],
+    answer:1,
+    explain:"UNFCCC 於 1994 年生效。"
+  },
+  {
+    id:22,
+    q:"京都議定書生效關鍵在於哪國於 2004 年批准？",
+    choices:["美國","中國","俄羅斯","日本"],
+    answer:2,
+    explain:"俄羅斯批准後，2005 年正式生效。"
+  },
+  {
+    id:23,
+    q:"京都議定書三大市場機制中，允許在開發中國家投資減碳的是？",
+    choices:["ET","JI","CDM","CBAM"],
+    answer:2,
+    explain:"清潔發展機制（CDM）。"
+  },
+  {
+    id:24,
+    q:"巴黎協定與京都議定書的最大差異是？",
+    choices:["僅限已開發國減量","強調各國自主承諾（NDC）","京都允許碳市場，巴黎不允許","巴黎協定不具效力"],
+    answer:1,
+    explain:"巴黎協定要求所有締約方提交 NDC。"
+  },
+  {
+    id:25,
+    q:"COP18 多哈修正案的內容是：",
+    choices:["設定京都第二承諾期","通過巴黎協定","討論 1.5°C","淘汰化石燃料"],
+    answer:0,
+    explain:"COP18 通過多哈修正案，延長 Kyoto 至 2020。"
+  },
+  {
+    id:26,
+    q:"巴黎協定第 6 條細則最終在哪屆 COP 完成？",
+    choices:["COP21","COP24","COP25","COP26"],
+    answer:3,
+    explain:"在 COP26 才談成。"
+  },
+  {
+    id:27,
+    q:"巴黎協定要求全球於何時左右達到淨零？",
+    choices:["2030","2040","2050","2100"],
+    answer:2,
+    explain:"2050 年左右。"
+  },
+  {
+    id:28,
+    q:"COP27 的損失與損害基金主要針對？",
+    choices:["高碳排罰金","開發中國家氣候災害補償","未履行 NDC 懲罰","碳市場監管"],
+    answer:1,
+    explain:"基金支援脆弱國家因氣候災害的損失。"
+  },
+  {
+    id:29,
+    q:"COP28 首次提及逐步淘汰化石燃料，意涵為？",
+    choices:["立即關閉碳市場","化石燃料將被逐步替代","取消碳稅","延長 Kyoto"],
+    answer:1,
+    explain:"逐步轉型 away from fossil fuels。"
+  },
+  {
+    id:30,
+    q:"「共同但有差別責任（CBDR）」原則首次提出是在：",
+    choices:["1992 UNFCCC","1997 京都議定書","2009 哥本哈根","2015 巴黎協定"],
+    answer:0,
+    explain:"CBDR 源於 UNFCCC。"
+  }
+];
+
+function render(){
+  const root = document.getElementById('root');
+  root.innerHTML = '';
+  data.forEach((q,idx)=>{
+    const card = document.createElement('div');
+    card.className='card';
+    const t = document.createElement('div');
+    t.className='qtitle';
+    t.textContent = (idx+1)+'. '+q.q;
+    card.appendChild(t);
+    const wrap = document.createElement('div');
+    wrap.className='choices';
+    q.choices.forEach((c,i)=>{
+      const lab = document.createElement('label');
+      lab.className='choice';
+      const radio = document.createElement('input');
+      radio.type='radio';
+      radio.name='q'+q.id;
+      radio.value=i;
+      lab.appendChild(radio);
+      const span = document.createElement('div');
+      span.textContent = String.fromCharCode(65+i)+'. '+c;
+      lab.appendChild(span);
+      wrap.appendChild(lab);
+    });
+    card.appendChild(wrap);
+    const ctrl = document.createElement('div');
+    ctrl.className='btns';
+    const btn = document.createElement('button');
+    btn.className='outline';
+    btn.textContent='顯示詳解';
+    btn.addEventListener('click',()=>{ans.style.display = ans.style.display==='block' ? 'none' : 'block';});
+    ctrl.appendChild(btn);
+    card.appendChild(ctrl);
+    const ans = document.createElement('div');
+    ans.className='ans';
+    ans.innerHTML = '<div><b>正解：</b>'+String.fromCharCode(65+q.answer)+'</div>' +
+                    '<div class="muted" style="margin-top:6px">'+q.explain+'</div>';
+    card.appendChild(ans);
+    root.appendChild(card);
+  });
+}
+
+function grade(){
+  let correct=0,total=data.length;
+  const cards=[...document.querySelectorAll('.card')];
+  cards.forEach((card,idx)=>{
+    const q=data[idx];
+    const checked = card.querySelector('input[type=radio]:checked');
+    card.classList.remove('correct','wrong');
+    if(checked){
+      const v=parseInt(checked.value,10);
+      if(v===q.answer){correct++; card.classList.add('correct');}
+      else{card.classList.add('wrong');}
+    }else{
+      card.classList.add('wrong');
+    }
+  });
+  document.getElementById('scoreText').textContent = correct+'/'+total+'（'+Math.round(correct/total*100)+' 分）';
+}
+
+function resetAll(){
+  document.querySelectorAll('input[type=radio]').forEach(i=>i.checked=false);
+  document.querySelectorAll('.card').forEach(c=>c.classList.remove('correct','wrong'));
+  document.getElementById('scoreText').textContent='尚未作答';
+  document.querySelectorAll('.ans').forEach(a=>a.style.display='none');
+}
+
+function toggleAll(){
+  const blocks=[...document.querySelectorAll('.ans')];
+  const anyHidden = blocks.some(b=>b.style.display!=='block');
+  blocks.forEach(b=>b.style.display = anyHidden ? 'block' : 'none');
+}
+
+document.getElementById('gradeBtn').addEventListener('click',grade);
+document.getElementById('resetBtn').addEventListener('click',resetAll);
+document.getElementById('toggleAll').addEventListener('click',toggleAll);
+
+render();
+</script>
+</body>
+</html>
